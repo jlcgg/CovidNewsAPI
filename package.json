@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "Janete Gibert",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.24.0",
