@@ -97,13 +97,13 @@ const newspapers_it = [
     }
 ]
 
-const articles_en = []
+let articles_en = []
 
-const articles_pt = []
+let articles_pt = []
 
-const articles_es = []
+let articles_es = []
 
-const articles_it = []
+let articles_it = []
 
 
 newspapers_en.forEach(newspaper => {
@@ -252,3 +252,142 @@ exports.getNewES = (req, res) => {
 exports.getNewIT = (req, res) => {
     res.json(articles_it)
 }
+
+
+setInterval(() => {
+
+    articles_en = []
+    newspapers_en.forEach(newspaper => {
+        axios.get(newspaper.address)
+        .then((response) =>{
+            const html = response.data;
+            const $ = cheerio.load(html);
+            
+            $(newspaper.tag_search, html).each(function () {
+                if($(this).attr('class') == newspaper.className){
+                    const sc = $(this).children('a').each(function() {
+    
+                        let title = '';
+                        if($(this).attr('title') == null){
+                            title = $(this).text().trim();
+                        }else{
+                            title = $(this).attr('title');
+                        }
+                        
+                        const url = newspaper.base + $(this).attr('href');
+           
+                        articles_en.push({
+                            title,
+                            url: url,
+                            source: newspaper.name
+                        })    
+                    })
+                }
+            })
+            
+        }).catch((err) => console.log(err))
+    
+    })
+    
+    articles_pt=[]
+    newspapers_pt.forEach(newspaper => {
+        axios.get(newspaper.address)
+        .then((response) =>{
+            const html = response.data;
+            const $ = cheerio.load(html);
+            
+            $(newspaper.tag_search, html).each(function () {
+                if($(this).attr('class') == newspaper.className){
+                    const sc = $(this).children('a').each(function() {
+    
+                        let title = '';
+                        if($(this).attr('title') == null){
+                            title = $(this).text().trim();
+                        }else{
+                            title = $(this).attr('title');
+                        }
+                        
+                        const url = newspaper.base + $(this).attr('href');
+           
+                        articles_pt.push({
+                            title,
+                            url: url,
+                            source: newspaper.name
+                        })
+                    })
+                }
+            })
+            
+        }).catch((err) => console.log(err))
+    
+    })
+    
+    articles_es=[]
+    newspapers_es.forEach(newspaper => {
+        axios.get(newspaper.address)
+        .then((response) =>{
+            const html = response.data;
+            const $ = cheerio.load(html);
+            
+            $(newspaper.tag_search, html).each(function () {
+                if($(this).attr('class') == newspaper.className){
+                    const sc = $(this).children('a').each(function() {
+    
+                        let title = '';
+                        if($(this).attr('title') == null){
+                            title = $(this).text().trim();
+                        }else{
+                            title = $(this).attr('title');
+                        }
+                        
+                        const url = newspaper.base + $(this).attr('href');
+                        
+                        articles_es.push({
+                            title,
+                            url: url,
+                            source: newspaper.name
+                        })
+                
+                    })
+                }
+            })
+            
+        }).catch((err) => console.log(err))
+    
+    })
+    
+    articles_it=[]
+    newspapers_it.forEach(newspaper => {
+        axios.get(newspaper.address)
+        .then((response) =>{
+            const html = response.data;
+            const $ = cheerio.load(html);
+            
+            $(newspaper.tag_search, html).each(function () {
+                if($(this).attr('class') == newspaper.className){
+                    const sc = $(this).children('a').each(function() {
+    
+                        let title = '';
+                        if($(this).attr('title') == null){
+                            title = $(this).text().trim();
+                        }else{
+                            title = $(this).attr('title');
+                        }
+                        
+                        const url = newspaper.base + $(this).attr('href');
+           
+                        articles_it.push({
+                            title,
+                            url: url,
+                            source: newspaper.name
+                        })
+    
+                    })
+                }
+            })
+            
+        }).catch((err) => console.log(err))
+    
+    })
+    
+},300000);
